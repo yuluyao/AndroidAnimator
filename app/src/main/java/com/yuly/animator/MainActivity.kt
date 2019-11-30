@@ -1,5 +1,6 @@
 package com.yuly.animator
 
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,14 +22,14 @@ class MainActivity : AppCompatActivity() {
 
 
     private val clickListener: (View) -> Unit = l@{
-        val count = Int.MAX_VALUE / 1000
-        val animator = ValueAnimator.ofFloat(0f, 360f*count)
+        val count = Int.MAX_VALUE
+        val animator = ObjectAnimator.ofFloat(iv_panda, "rotation", 0f, 360f * count)
 
 
-        animator.addUpdateListener {
-            val value = it.animatedValue as Float % 360
-            iv_panda.rotation = value
-        }
+//        animator.addUpdateListener {
+//            val value = it.animatedValue as Float % 360
+//            iv_panda.rotation = value
+//        }
         animator.interpolator = LinearInterpolator()
 //        valueAnimator.addListener(object : AnimatorListenerAdapter() {
 //            override fun onAnimationEnd(animation: Animator?) {
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 //                valueAnimator.start()
 //            }
 //        })
-        animator.duration = 1200L*count
+        animator.duration = 1200L * count
 //        valueAnimator.repeatCount = ValueAnimator.INFINITE
         animator.start()
     }

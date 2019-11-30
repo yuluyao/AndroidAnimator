@@ -1,12 +1,10 @@
 package com.yuly.animator
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.animation.LinearInterpolator
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -23,20 +21,24 @@ class MainActivity : AppCompatActivity() {
 
 
     private val clickListener: (View) -> Unit = l@{
-    val valueAnimator = ValueAnimator.ofFloat(iv_panda.rotation, iv_panda.rotation + 30f)
-        valueAnimator.addUpdateListener {
-            val value = it.animatedValue as Float
+        val count = Int.MAX_VALUE / 1000
+        val animator = ValueAnimator.ofFloat(0f, 360f*count)
+
+
+        animator.addUpdateListener {
+            val value = it.animatedValue as Float % 360
             iv_panda.rotation = value
         }
-        valueAnimator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
-                super.onAnimationEnd(animation)
-                valueAnimator.setFloatValues(iv_panda.rotation, iv_panda.rotation + 30f)
-                valueAnimator.start()
-            }
-        })
-        valueAnimator.duration = 200
+        animator.interpolator = LinearInterpolator()
+//        valueAnimator.addListener(object : AnimatorListenerAdapter() {
+//            override fun onAnimationEnd(animation: Animator?) {
+//                super.onAnimationEnd(animation)
+//                valueAnimator.setFloatValues(iv_panda.rotation, iv_panda.rotation + 30f)
+//                valueAnimator.start()
+//            }
+//        })
+        animator.duration = 1200L*count
 //        valueAnimator.repeatCount = ValueAnimator.INFINITE
-        valueAnimator.start()
+        animator.start()
     }
 }
